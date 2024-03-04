@@ -10,6 +10,7 @@ import java.text.DecimalFormat;
 
 public class MainActivity extends AppCompatActivity {
 
+
     private TextView textView;
     private StringBuilder input;
 
@@ -48,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
     private void setOperatorButtonClickListeners() {
         int[] operatorButtonIds = {
                 R.id.buttonAdd, R.id.buttonSubtract, R.id.buttonMultiply,
-                R.id.buttonDivide, R.id.buttonleftbracket, R.id.buttonrightbracket, R.id.buttonCommas
+                R.id.buttonDivide, R.id.buttonSquare, R.id.buttonPersent, R.id.buttonCommas
         };
 
         for (int operatorButtonId : operatorButtonIds) {
@@ -61,6 +62,43 @@ public class MainActivity extends AppCompatActivity {
                     textView.setText(input.toString());
                 }
             });
+            Button percentButton = findViewById(R.id.buttonPersent);
+            percentButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String expression = input.toString();
+                    try {
+                        double result = evaluateExpression(expression);
+                        result = result / 100;
+                        DecimalFormat df = new DecimalFormat("#.###");
+                        textView.setText(df.format(result));
+                        input.setLength(0);
+                        input.append(df.format(result));
+                    } catch (ArithmeticException e) {
+                        textView.setText("Error");
+                    }
+                }
+            });
+
+            Button squareButton = findViewById(R.id.buttonSquare);
+            squareButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String expression = input.toString();
+                    try {
+                        double result = evaluateExpression(expression);
+                        result = result * result;
+                        DecimalFormat df = new DecimalFormat("#.###");
+                        textView.setText(df.format(result));
+                        input.setLength(0);
+                        input.append(df.format(result));
+                    } catch (ArithmeticException e) {
+                        textView.setText("Error");
+                    }
+                }
+            });
+
+
         }
 
 
@@ -171,5 +209,6 @@ public class MainActivity extends AppCompatActivity {
                 return 0;
         }
     }
+
 }
 
